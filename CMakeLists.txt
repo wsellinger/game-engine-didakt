@@ -76,6 +76,18 @@ add_executable(Didakt src/main.cpp
     #Events
     "src/events/EventBus.h"
 
+    #-Components
+    "src/ecs/components/BoxColliderComponent.h"
+    "src/ecs/components/RenderComponent.h"
+    "src/ecs/components/RigidBodyComponent.h"
+    "src/ecs/components/SpriteSheetComponent.h"
+    "src/ecs/components/TilemapComponent.h"
+    "src/ecs/components/TransformComponent.h"
+
+    #-Systems
+    "src/ecs/systems/MovementSystem.h" "src/ecs/systems/MovementSystem.cpp"
+    "src/ecs/systems/RenderSystem.h"   "src/ecs/systems/RenderSystem.cpp"
+
     #Input
     "src/input/InputManager.h" "src/input/InputManager.cpp"
     "src/input/Key.h"
@@ -89,18 +101,8 @@ add_executable(Didakt src/main.cpp
     "src/render/RenderMath.h"   "src/render/RenderMath.cpp"
     "src/render/TextureHandle.h"
 
-
-    #-Components
-    "src/ecs/components/BoxColliderComponent.h"
-    "src/ecs/components/RenderComponent.h"
-    "src/ecs/components/RigidBodyComponent.h"
-    "src/ecs/components/SpriteSheetComponent.h"
-    "src/ecs/components/TilemapComponent.h"
-    "src/ecs/components/TransformComponent.h"
-
-    #-Systems
-    "src/ecs/systems/MovementSystem.h" "src/ecs/systems/MovementSystem.cpp"
-    "src/ecs/systems/RenderSystem.h"   "src/ecs/systems/RenderSystem.cpp"
+    #Scenes
+    "src/scenes/Scene.h"
 )
 
 #=== Libraries
@@ -159,6 +161,8 @@ add_executable(DidaktTests
     "tests/render/AssetManagerTests.cpp"
     "tests/render/CameraTests.cpp"
     "tests/render/RenderMathTests.cpp"
+    
+    "tests/scenes/SceneTests.cpp"
 
     #Providers
     ${DIDAKT_PROVIDER_SOURCES}
