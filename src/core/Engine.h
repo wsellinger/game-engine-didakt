@@ -4,7 +4,6 @@
 
 #include "../providers/interfaces/IProviderManager.h"
 
-#include "../ecs/RegistryManager.h"
 #include "../ecs/systems/RenderSystem.h"
 #include "../ecs/systems/MovementSystem.h"
 
@@ -14,6 +13,8 @@
 
 #include "../render/AssetManager.h"
 #include "../render/Camera.h"
+
+#include "../scenes/SceneManager.h"
 
 #include <memory>
 
@@ -43,7 +44,7 @@ protected:
 
     AssetManager _assetManager;
     InputManager _inputManager;
-    RegistryManager _registryManager{};
+    SceneManager _sceneManager;
     
     Camera _camera;
 

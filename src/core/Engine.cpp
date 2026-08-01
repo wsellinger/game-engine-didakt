@@ -105,7 +105,7 @@ void Engine::ProcessEvents()
 
 void Engine::FixedUpdate(double deltaTime)
 {
-    _movementSystem.Update(_registryManager.GetRegistry(), deltaTime);
+    _movementSystem.Update(_sceneManager.GetCurrentScene().GetRegistry(), deltaTime);
 }
 
 void Engine::FrameUpdate(double deltaTime)
@@ -120,7 +120,7 @@ void Engine::Render()
     IRenderProvider& renderProvider = _providerManager->GetRenderProvider();
 
     renderProvider.Clear(color);
-    _renderSystem.Render(_registryManager.GetRegistry(), renderProvider, _assetManager, _camera);
+    _renderSystem.Render(_sceneManager.GetCurrentScene().GetRegistry(), renderProvider, _assetManager, _camera);
     renderProvider.Present();
 }
 

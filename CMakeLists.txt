@@ -72,8 +72,7 @@ add_executable(Didakt src/main.cpp
 
     #Entity Component System
     "src/ecs/EntityDefinition.h"
-    "src/ecs/EntityFactory.h" "src/ecs/EntityFactory.cpp"
-    "src/ecs/RegistryManager.h" "src/ecs/RegistryManager.cpp"
+    "src/ecs/EntityFactory.h"   "src/ecs/EntityFactory.cpp"
 
     #-Components
     "src/ecs/components/BoxColliderComponent.h"
@@ -105,8 +104,9 @@ add_executable(Didakt src/main.cpp
 
     #Scenes
     "src/scenes/Scene.h"
-    "src/scenes/SceneLoader.h" "src/scenes/SceneLoader.cpp"
- "src/scenes/SceneManager.h" "src/scenes/SceneManager.cpp")
+    "src/scenes/SceneLoader.h"  "src/scenes/SceneLoader.cpp"
+    "src/scenes/SceneManager.h" "src/scenes/SceneManager.cpp"
+)
 
 #=== Libraries
 
