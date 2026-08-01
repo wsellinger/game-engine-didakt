@@ -1,18 +1,20 @@
 #pragma once
 
-#include "components/TransformComponent.h"
+#include "components/BoxColliderComponent.h"
 #include "components/RenderComponent.h"
 #include "components/RigidBodyComponent.h"
-#include "components/BoxColliderComponent.h"
 #include "components/SpriteSheetComponent.h"
+#include "components/TileMapComponent.h"
+#include "components/TransformComponent.h"
 
 #include <optional>
 
 struct EntityDefinition
 {
-    std::optional<TransformComponent> transform;
+    std::optional<BoxColliderComponent> boxCollider;
     std::optional<RenderComponent> render;
     std::optional<RigidBodyComponent> rigidBody;
-    std::optional<BoxColliderComponent> boxCollider;
     std::optional<SpriteSheetComponent> spriteSheet;
+    std::optional<TileMapComponent> tileMap;
+    std::optional<TransformComponent> transform;
 };

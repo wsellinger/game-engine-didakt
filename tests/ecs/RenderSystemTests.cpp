@@ -1,7 +1,7 @@
 #include "ecs/systems/RenderSystem.h"
 #include "ecs/components/RenderComponent.h"
 #include "ecs/components/SpriteSheetComponent.h"
-#include "ecs/components/TilemapComponent.h"
+#include "ecs/components/TileMapComponent.h"
 #include "ecs/components/TransformComponent.h"
 #include "providers/interfaces/IAssetProvider.h"
 #include "providers/interfaces/IRenderProvider.h"
@@ -118,7 +118,7 @@ TEST_CASE("ECS.RenderSystem.SpriteEntity_PassesRotation", "[RenderSystem]")
     REQUIRE(renderProvider.drawCalls[0].rotation == 45.0);
 }
 
-TEST_CASE("ECS.RenderSystem.TilemapEntity_DrawsOncePerTile", "[RenderSystem]")
+TEST_CASE("ECS.RenderSystem.TileMapEntity_DrawsOncePerTile", "[RenderSystem]")
 {
     entt::registry registry;
     MockAssetProvider assetProvider;
@@ -128,7 +128,7 @@ TEST_CASE("ECS.RenderSystem.TilemapEntity_DrawsOncePerTile", "[RenderSystem]")
 
     auto entity = registry.create();
     registry.emplace<RenderComponent>(entity, RenderComponent{ "tileset", 0 });
-    registry.emplace<TilemapComponent>(entity, TilemapComponent
+    registry.emplace<TileMapComponent>(entity, TileMapComponent
         {
             {
                 { 0, 1 },
@@ -146,7 +146,7 @@ TEST_CASE("ECS.RenderSystem.TilemapEntity_DrawsOncePerTile", "[RenderSystem]")
     REQUIRE(renderProvider.drawCalls.size() == 4); // 2x2 grid
 }
 
-TEST_CASE("ECS.RenderSystem.TilemapEntity_TilesHaveZeroRotation", "[RenderSystem]")
+TEST_CASE("ECS.RenderSystem.TileMapEntity_TilesHaveZeroRotation", "[RenderSystem]")
 {
     entt::registry registry;
     MockAssetProvider assetProvider;
@@ -156,7 +156,7 @@ TEST_CASE("ECS.RenderSystem.TilemapEntity_TilesHaveZeroRotation", "[RenderSystem
 
     auto entity = registry.create();
     registry.emplace<RenderComponent>(entity, RenderComponent{ "tileset", 0 });
-    registry.emplace<TilemapComponent>(entity, TilemapComponent
+    registry.emplace<TileMapComponent>(entity, TileMapComponent
         {
             { { 0 } },
             16, 16, 4

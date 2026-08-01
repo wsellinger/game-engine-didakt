@@ -2,7 +2,7 @@
 
 #include "vector"
 
-struct TilemapComponent
+struct TileMapComponent
 {
     std::vector<std::vector<int>> tiles;
     int tileWidth = 0;

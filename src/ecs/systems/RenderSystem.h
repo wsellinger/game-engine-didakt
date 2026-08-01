@@ -8,7 +8,7 @@
 #include <entt/entity/fwd.hpp>
 
 class AssetManager;
-class TilemapComponent;
+class TileMapComponent;
 
 class RenderSystem
 {
@@ -24,7 +24,7 @@ public:
     void Render(entt::registry& registry, IRenderProvider& renderProvider, AssetManager& assetManager, const Camera& camera);
 
 private:
-    enum class DrawType { Invalid, Sprite, Tilemap };
+    enum class DrawType { Invalid, Sprite, TileMap };
 
     struct DrawCommand
     {
@@ -45,5 +45,5 @@ private:
     static void AppendCommands(DrawType type, entt::registry& registry, std::vector<DrawCommand>& drawCommands);
 
     static void RenderSprite(entt::entity entity, const RenderParameters& renderParameters);
-    static void RenderTilemap(entt::entity entity, const RenderParameters& renderParameters);
+    static void RenderTileMap(entt::entity entity, const RenderParameters& renderParameters);
 };

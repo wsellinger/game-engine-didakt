@@ -8,7 +8,7 @@
 #include "../../render/RenderMath.h"
 #include "../components/RenderComponent.h"
 #include "../components/SpriteSheetComponent.h"
-#include "../components/TilemapComponent.h"
+#include "../components/TileMapComponent.h"
 #include "../components/TransformComponent.h"
 
 #include <algorithm>
@@ -24,7 +24,7 @@ void RenderSystem::Render(entt::registry& registry, IRenderProvider& renderProvi
     //Get Commands
     std::vector<DrawCommand> drawCommands;
     AppendCommands<SpriteSheetComponent, TransformComponent>(DrawType::Sprite, registry, drawCommands);
-    AppendCommands<TilemapComponent>(DrawType::Tilemap, registry, drawCommands);
+    AppendCommands<TileMapComponent>(DrawType::TileMap, registry, drawCommands);
 
     //Sort
     std::sort(drawCommands.begin(), drawCommands.end(), 
@@ -39,8 +39,8 @@ void RenderSystem::Render(entt::registry& registry, IRenderProvider& renderProvi
         case DrawType::Sprite:
             RenderSprite(drawCommand.entity, renderParameters);
             break;
-        case DrawType::Tilemap:
-            RenderTilemap(drawCommand.entity, renderParameters);
+        case DrawType::TileMap:
+            RenderTileMap(drawCommand.entity, renderParameters);
             break;
         default:
             Logger::Log(LogLevel::Error, "RenderSystem: unknown DrawType %d", static_cast<int>(drawCommand.type));
@@ -85,14 +85,14 @@ void RenderSystem::RenderSprite(entt::entity entity, const RenderParameters& ren
 using TileRow = std::vector<int>;
 using TileGrid = std::vector<TileRow>;
 
-void RenderSystem::RenderTilemap(entt::entity entity, const RenderParameters& renderParameters)
+void RenderSystem::RenderTileMap(entt::entity entity, const RenderParameters& renderParameters)
 {
     auto& [registry, renderProvider, assetManager, camera] = renderParameters;
 
     //Get Components
-    auto view = registry.view<RenderComponent, TilemapComponent>();
+    auto view = registry.view<RenderComponent, TileMapComponent>();
     const auto& render = view.get<RenderComponent>(entity);
-    const auto& tilemap = view.get<TilemapComponent>(entity);
+    const auto& tilemap = view.get<TileMapComponent>(entity);
 
     //Texture
     TextureHandle handle = assetManager.GetTextureHandle(render.textureId);

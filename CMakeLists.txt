@@ -80,7 +80,7 @@ add_executable(Didakt src/main.cpp
     "src/ecs/components/RenderComponent.h"
     "src/ecs/components/RigidBodyComponent.h"
     "src/ecs/components/SpriteSheetComponent.h"
-    "src/ecs/components/TilemapComponent.h"
+    "src/ecs/components/TileMapComponent.h"
     "src/ecs/components/TransformComponent.h"
 
     #-Systems
@@ -105,7 +105,8 @@ add_executable(Didakt src/main.cpp
 
     #Scenes
     "src/scenes/Scene.h"
-  "src/ecs/EntityDefinition.h" "src/ecs/EntityFactory.cpp")
+    "src/scenes/SceneLoader.h" "src/scenes/SceneLoader.cpp"
+)
 
 #=== Libraries
 
@@ -166,6 +167,7 @@ add_executable(DidaktTests
     "tests/render/RenderMathTests.cpp"
     
     "tests/scenes/SceneTests.cpp"
+    "tests/scenes/SceneLoaderTests.cpp"
 
     #Providers
     ${DIDAKT_PROVIDER_SOURCES}
@@ -183,6 +185,8 @@ add_executable(DidaktTests
 
     "src/render/AssetManager.cpp"
     "src/render/RenderMath.cpp"
+    
+    "src/scenes/SceneLoader.cpp"
 )
 
 #=== Include Directories
