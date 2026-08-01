@@ -7,38 +7,13 @@
 #include "ecs/components/TileMapComponent.h"
 #include "ecs/components/TransformComponent.h"
 
+#include "../mocks/TempJsonFile.h"
+
 #include <catch2/catch_test_macros.hpp>
-
-#include <filesystem>
-#include <fstream>
-
-namespace
-{
-    class TempSceneFile
-    {
-    public:
-        TempSceneFile(const std::string& content)
-        {
-            _path = std::filesystem::temp_directory_path() / "didakt_test_scene.json";
-            std::ofstream file(_path);
-            file << content;
-        }
-
-        ~TempSceneFile()
-        {
-            std::filesystem::remove(_path);
-        }
-
-        std::string PathString() const { return _path.string(); }
-
-    private:
-        std::filesystem::path _path;
-    };
-}
 
 TEST_CASE("Scenes.SceneLoader.LoadFromFile_ParsesValidSceneWithAllComponents", "[SceneLoader]")
 {
-    TempSceneFile tempFile(R"({
+    TempJsonFile tempFile(R"({
         "name": "TestLevel",
         "assets": [
             { "id": "player", "path": "assets/player.png" }
@@ -97,7 +72,7 @@ TEST_CASE("Scenes.SceneLoader.LoadFromFile_ParsesValidSceneWithAllComponents", "
 
 TEST_CASE("Scenes.SceneLoader.LoadFromFile_ParsesTileMapNestedArray", "[SceneLoader]")
 {
-    TempSceneFile tempFile(R"({
+    TempJsonFile tempFile(R"({
         "name": "TileLevel",
         "entities": [
             {
@@ -130,7 +105,7 @@ TEST_CASE("Scenes.SceneLoader.LoadFromFile_ParsesTileMapNestedArray", "[SceneLoa
 
 TEST_CASE("Scenes.SceneLoader.LoadFromFile_PartialEntityOnlySetsPresentComponents", "[SceneLoader]")
 {
-    TempSceneFile tempFile(R"({
+    TempJsonFile tempFile(R"({
         "name": "PartialLevel",
         "entities": [
             {
@@ -153,7 +128,7 @@ TEST_CASE("Scenes.SceneLoader.LoadFromFile_PartialEntityOnlySetsPresentComponent
 
 TEST_CASE("Scenes.SceneLoader.LoadFromFile_MissingNameFallsBackToUnnamed", "[SceneLoader]")
 {
-    TempSceneFile tempFile(R"({ "entities": [] })");
+    TempJsonFile tempFile(R"({ "entities": [] })");
 
     auto result = SceneLoader::LoadFromFile(tempFile.PathString());
     REQUIRE(result.has_value());
@@ -162,7 +137,7 @@ TEST_CASE("Scenes.SceneLoader.LoadFromFile_MissingNameFallsBackToUnnamed", "[Sce
 
 TEST_CASE("Scenes.SceneLoader.LoadFromFile_MissingAssetsAndEntitiesDefaultEmpty", "[SceneLoader]")
 {
-    TempSceneFile tempFile(R"({ "name": "BareLevel" })");
+    TempJsonFile tempFile(R"({ "name": "BareLevel" })");
 
     auto result = SceneLoader::LoadFromFile(tempFile.PathString());
     REQUIRE(result.has_value());
@@ -180,7 +155,7 @@ TEST_CASE("Scenes.SceneLoader.LoadFromFile_MissingFileReturnsNullopt", "[SceneLo
 
 TEST_CASE("Scenes.SceneLoader.LoadFromFile_MalformedJsonReturnsNullopt", "[SceneLoader]")
 {
-    TempSceneFile tempFile("{ this is not valid json ");
+    TempJsonFile tempFile("{ this is not valid json ");
 
     auto result = SceneLoader::LoadFromFile(tempFile.PathString());
     REQUIRE_FALSE(result.has_value());

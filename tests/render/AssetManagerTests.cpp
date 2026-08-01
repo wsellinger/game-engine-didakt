@@ -1,44 +1,7 @@
 #include "render/AssetManager.h"
-#include "providers/interfaces/IAssetProvider.h"
+#include "../mocks/MockAssetProvider.h"
 
 #include <catch2/catch_test_macros.hpp>
-
-namespace
-{
-    class MockAssetProvider : public IAssetProvider
-    {
-    public:
-        TextureHandle LoadTexture(const std::string& path) override
-        {
-            loadCallCount++;
-            lastLoadedPath = path;
-
-            if (shouldFailLoad)
-                return TextureHandle{};
-
-            // Fabricate a distinct non-null handle per call so tests can
-            // tell different loaded textures apart.
-            static int nextHandleId = 1;
-            void* fakeHandle = reinterpret_cast<void*>(static_cast<intptr_t>(nextHandleId++));
-            return TextureHandle{ fakeHandle };
-        }
-
-        void DestroyTexture(TextureHandle texture) override
-        {
-            destroyCallCount++;
-            lastDestroyedHandle = texture;
-        }
-
-        // Test-controlled behavior
-        bool shouldFailLoad = false;
-
-        // Test-observable state
-        int loadCallCount = 0;
-        int destroyCallCount = 0;
-        std::string lastLoadedPath;
-        TextureHandle lastDestroyedHandle{};
-    };
-}
 
 TEST_CASE("Render.AssetManager.LoadTexture_CachesById", "[AssetManager]")
 {

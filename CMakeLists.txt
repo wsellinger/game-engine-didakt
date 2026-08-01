@@ -106,7 +106,7 @@ add_executable(Didakt src/main.cpp
     #Scenes
     "src/scenes/Scene.h"
     "src/scenes/SceneLoader.h" "src/scenes/SceneLoader.cpp"
-)
+ "src/scenes/SceneManager.h" "src/scenes/SceneManager.cpp")
 
 #=== Libraries
 
@@ -162,12 +162,16 @@ add_executable(DidaktTests
 
     "tests/input/InputManagerTests.cpp"
 
+    "tests/mocks/MockAssetProvider.h" 
+    "tests/mocks/TempJsonFile.h"
+
     "tests/render/AssetManagerTests.cpp"
     "tests/render/CameraTests.cpp"
     "tests/render/RenderMathTests.cpp"
     
     "tests/scenes/SceneTests.cpp"
     "tests/scenes/SceneLoaderTests.cpp"
+    "tests/scenes/SceneManagerTests.cpp"
 
     #Providers
     ${DIDAKT_PROVIDER_SOURCES}
@@ -187,6 +191,7 @@ add_executable(DidaktTests
     "src/render/RenderMath.cpp"
     
     "src/scenes/SceneLoader.cpp"
+    "src/scenes/SceneManager.cpp" 
 )
 
 #=== Include Directories

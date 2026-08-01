@@ -1,33 +1,11 @@
 #include "core/Config.h"
 
-#include <catch2/catch_test_macros.hpp>
+#include "../mocks/TempJsonFile.h"
 
-#include <filesystem>
-#include <fstream>
+#include <catch2/catch_test_macros.hpp>
 
 namespace
 {
-    class TempConfigFile
-    {
-    public:
-        TempConfigFile(const std::string& content)
-        {
-            _path = std::filesystem::temp_directory_path() / "didakt_test_config.json";
-            std::ofstream file(_path);
-            file << content;
-        }
-
-        ~TempConfigFile()
-        {
-            std::filesystem::remove(_path);
-        }
-
-        std::string PathString() const { return _path.string(); }
-
-    private:
-        std::filesystem::path _path;
-    };
-
     void RequireDefaults(const Config& config)
     {
         Config defaults{};
@@ -45,7 +23,7 @@ namespace
 
 TEST_CASE("Core.Config.LoadConfig_ParsesValidFile", "[Config]")
 {
-    TempConfigFile tempFile(R"({
+    TempJsonFile tempFile(R"({
         "window": {
             "title": "Test Window",
             "width": 1024,
@@ -79,7 +57,7 @@ TEST_CASE("Core.Config.LoadConfig_MissingFieldFallsBackToDefault", "[Config]")
     Config defaults{};
 
     // "height" is absent — should silently take the struct default, not throw
-    TempConfigFile tempFile(R"({
+    TempJsonFile tempFile(R"({
         "window": {
             "title": "Test Window",
             "width": 1024
@@ -99,7 +77,7 @@ TEST_CASE("Core.Config.LoadConfig_MissingFieldFallsBackToDefault", "[Config]")
 TEST_CASE("Core.Config.LoadConfig_MissingSectionFallsBackToDefaults", "[Config]")
 {
     // "renderer" section entirely absent
-    TempConfigFile tempFile(R"({
+    TempJsonFile tempFile(R"({
         "window": {
             "title": "Test Window",
             "width": 1024,
@@ -120,7 +98,7 @@ TEST_CASE("Core.Config.LoadConfig_MissingSectionFallsBackToDefaults", "[Config]"
 
 TEST_CASE("Core.Config.LoadConfig_MalformedJsonReturnsDefaults", "[Config]")
 {
-    TempConfigFile tempFile("{ this is not valid json ");
+    TempJsonFile tempFile("{ this is not valid json ");
 
     Config config = LoadConfig(tempFile.PathString());
     RequireDefaults(config);
@@ -129,7 +107,7 @@ TEST_CASE("Core.Config.LoadConfig_MalformedJsonReturnsDefaults", "[Config]")
 TEST_CASE("Core.Config.LoadConfig_TypeErrorReturnsDefaults", "[Config]")
 {
     // "width" is a string instead of a number
-    TempConfigFile tempFile(R"({
+    TempJsonFile tempFile(R"({
         "window": {
             "title": "Test Window",
             "width": "oops",
@@ -147,7 +125,7 @@ TEST_CASE("Core.Config.LoadConfig_TypeErrorReturnsDefaults", "[Config]")
 TEST_CASE("Core.Config.LoadConfig_MalformedClearColorArrayFallsBackToDefault", "[Config]")
 {
     // clearColor array has only 3 elements instead of 4
-    TempConfigFile tempFile(R"({
+    TempJsonFile tempFile(R"({
         "window": {
             "title": "Test Window",
             "width": 1024,
